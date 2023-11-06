@@ -13,6 +13,6 @@ let questions = [
     {
         question: "Who won the Balon d'or?",
         choices: ['Maguire', 'Messi', 'Haaland', 'Mbaape'],
-        correct_answer : 'Ronaldo'
+        correct_answer : 'Haaland'
     }
 ]

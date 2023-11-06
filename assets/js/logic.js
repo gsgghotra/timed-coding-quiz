@@ -7,6 +7,9 @@ let startScreen = document.getElementById('start-screen');
 let questionsScreen = document.getElementById('questions');
 let endScreen = document.getElementById('end-screen');
 
+//feedback section
+let feedback =  document.createElement('p');
+
 //functions are listed below
 function startQuiz(event){
     console.log("Start button clicked");
@@ -21,9 +24,12 @@ function startQuiz(event){
 }
 
 function askQuestions(questionNumber){
-    //get question-title element
+    //get question-title and choices element 
     let questionTitle = document.getElementById('question-title');
     let questionChoices = document.getElementById('choices');
+
+    //Empty the choices
+    questionChoices.innerText = '';
 
     //ask questions
     questionTitle.innerText = questions[questionNumber].question; 
@@ -57,7 +63,6 @@ function userAnswer(questionChoices, questionNumber){
 }
 
 function checkAnswer(chosenAnswer, questionNumber){
-    feedback =  document.createElement('p');
     //First 3 characters have been removed as they include the option number in innerText
     if (chosenAnswer.slice(3) === questions[questionNumber].correct_answer){
         //Correct Answer
@@ -67,4 +72,11 @@ function checkAnswer(chosenAnswer, questionNumber){
     }
     feedback.classList.add('feedback')
     questionsScreen.append(feedback);
+    //hide feedback after 1 seconds
+    setTimeout(()=>{
+        feedback.remove();
+    },1000);
+
+    //Next Question
+    askQuestions(questionNumber+1);
 }
