@@ -13,6 +13,8 @@ let questionChoices = document.getElementById('choices');
 
 //feedback section
 let feedback =  document.createElement('p');
+let finalScore = document.getElementById('final-score');
+let currentScore = 0;
 
 //functions are listed below
 function startQuiz(event){
@@ -61,15 +63,18 @@ function userAnswer(questionChoices, questionNumber){
 
 }
 
+//Check answer and manage answer feedback
 function checkAnswer(chosenAnswer, questionNumber){
-
-    //Check Answer
+    //variable to save outcome
+    let outcome;
     //First 3 characters have been removed as they include the option number in innerText
     if (chosenAnswer.slice(3) === questions[questionNumber].correct_answer){
         //Correct Answer
-        feedback.innerText = "Correct!";   
+        feedback.innerText = "Correct!";
+        outcome = true;
     } else {
         feedback.innerText = "Wrong!";
+        outcome = false;
     }
     feedback.classList.add('feedback')
     questionsScreen.append(feedback);
@@ -80,23 +85,31 @@ function checkAnswer(chosenAnswer, questionNumber){
     },1000);
 
     //Save the scores
-    processScore(questionNumber)
-   
+    processScore(questionNumber, outcome);
 }
 
-function processScore(questionNumber) {
-    //Calculate and save score
-
+//Process Score and ask next question
+function processScore(questionNumber, outcome) {
+    //save score
+    if(outcome){
+        currentScore += 1;
+    }
     //Check if more questions are left
     if (questionNumber >= 2){
-        //Display end Screen
-        //Hide the start Screen
-        questionsScreen.classList.add('hide');
-        //Make questions Screen Visible
-        endScreen.classList.remove('hide');
+        showEndScreen();
     } else {
         //ask next question
         askQuestions(questionNumber+1);
     }
-    
+}
+
+//Show end screen after last question or timeout
+function showEndScreen(){
+    //Hide the start Screen
+    questionsScreen.classList.add('hide');
+    //Display end Screen
+    endScreen.classList.remove('hide');
+
+    //Display Final Score
+    finalScore.innerText = currentScore;
 }
