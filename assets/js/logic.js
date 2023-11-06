@@ -15,6 +15,7 @@ let questionChoices = document.getElementById('choices');
 let feedback =  document.createElement('p');
 let finalScore = document.getElementById('final-score');
 let currentScore = 0;
+let submit = document.getElementById('submit');
 
 //functions are listed below
 function startQuiz(event){
@@ -112,4 +113,10 @@ function showEndScreen(){
 
     //Display Final Score
     finalScore.innerText = currentScore;
+
+    //If user decides to save the score  
+    submit.addEventListener("click", ()=>{
+        let scoreObject = {initial: 'GS', userScore: currentScore}
+        localStorage.setItem('score', JSON.stringify(scoreObject));
+    });
 }
