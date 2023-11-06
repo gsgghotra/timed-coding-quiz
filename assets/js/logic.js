@@ -15,6 +15,13 @@ let questionChoices = document.getElementById('choices');
 let feedback =  document.createElement('p');
 let finalScore = document.getElementById('final-score');
 let currentScore = 0;
+let scoresList = [];
+if (!localStorage.getItem('score')){
+    scoresList = [];
+} else {
+    scoresList.push(localStorage.getItem('score'));
+}
+
 let submit = document.getElementById('submit');
 //Get the input value
 let initials = document.getElementById('initials');
@@ -126,9 +133,12 @@ function showEndScreen(){
             initials.focus();
             initials.setAttribute("placeholder", "Enter your initials")
         } else {
+            
             //Set score
             let scoreObject = {user: initials.value, userScore: currentScore}
-            localStorage.setItem('score', JSON.stringify(scoreObject));
+            scoresList.push(JSON.stringify(scoreObject));
+            localStorage.setItem('score', scoresList);
+            initials.value = "";
         }
         
     });
