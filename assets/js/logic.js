@@ -57,12 +57,14 @@ function userAnswer(questionChoices, questionNumber){
 }
 
 function checkAnswer(chosenAnswer, questionNumber){
-
-    //console.log(questions[questionNumber].correct_answer);
+    feedback =  document.createElement('p');
+    //First 3 characters have been removed as they include the option number in innerText
     if (chosenAnswer.slice(3) === questions[questionNumber].correct_answer){
-        //First 3 characters have been removed as they include the option number in innerText
-        console.log("Correct answer");
+        //Correct Answer
+        feedback.innerText = "Correct!";   
     } else {
-        console.log("Incorrect answer");
+        feedback.innerText = "Wrong!";
     }
+    feedback.classList.add('feedback')
+    questionsScreen.append(feedback);
 }
