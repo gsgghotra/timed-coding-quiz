@@ -15,8 +15,11 @@ let questionChoices = document.getElementById('choices');
 let feedback =  document.createElement('p');
 let finalScore = document.getElementById('final-score');
 let currentScore = 0;
-let scoresList = []
-scoresList.push(localStorage.getItem("score") || "[]");
+let scoresList = [];
+if (localStorage.getItem("score")){
+    scoresList.push(localStorage.getItem("score"));
+}
+
 
 
 let submit = document.getElementById('submit');
@@ -133,8 +136,8 @@ function showEndScreen(){
             
             //Set score
             let scoreObject = {user: initials.value, userScore: currentScore}
-            scoresList.push(JSON.stringify(scoreObject));
-            localStorage.setItem('score', scoresList);
+            scoresList.push(scoreObject);
+            localStorage.setItem('score', JSON.stringify(scoresList));
             initials.value = "";
 
             //Go to highscore page
