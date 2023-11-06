@@ -40,15 +40,29 @@ function askQuestions(questionNumber){
         questionChoices.appendChild(currentOption);
     }
 
-    userAnswer(questionChoices, questionNumber)
+    userAnswer(questionChoices, questionNumber);
 }
 
 //Check which option the user chooses
 function userAnswer(questionChoices, questionNumber){
+        let chosenAnswer;
         //Listen for the user answer
         questionChoices.addEventListener('click', function(event) {
             if (event.target.tagName.toLowerCase() === 'button') {
-                console.log('Button Clicked ' + event.target.innerText);
+                chosenAnswer = event.target.innerText
+                checkAnswer(chosenAnswer, questionNumber);
+                //console.log('Button Clicked ' + event.target.innerText);
             }
         });
+}
+
+function checkAnswer(chosenAnswer, questionNumber){
+
+    //console.log(questions[questionNumber].correct_answer);
+    if (chosenAnswer.slice(3) === questions[questionNumber].correct_answer){
+        //First 3 characters have been removed as they include the option number in innerText
+        console.log("Correct answer");
+    } else {
+        console.log("Incorrect answer");
+    }
 }
