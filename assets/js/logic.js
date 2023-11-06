@@ -15,12 +15,9 @@ let questionChoices = document.getElementById('choices');
 let feedback =  document.createElement('p');
 let finalScore = document.getElementById('final-score');
 let currentScore = 0;
-let scoresList = [];
-if (!localStorage.getItem('score')){
-    scoresList = [];
-} else {
-    scoresList.push(localStorage.getItem('score'));
-}
+let scoresList = []
+scoresList.push(localStorage.getItem("score") || "[]");
+
 
 let submit = document.getElementById('submit');
 //Get the input value
@@ -139,6 +136,9 @@ function showEndScreen(){
             scoresList.push(JSON.stringify(scoreObject));
             localStorage.setItem('score', scoresList);
             initials.value = "";
+
+            //Go to highscore page
+            window.location.href = "highscores.html";
         }
         
     });
