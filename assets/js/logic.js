@@ -14,16 +14,19 @@ function startQuiz(event){
     startScreen.classList.add('hide');
     //Make questions Screen Visible
     questionsScreen.classList.remove('hide');
-    askQuestions(0);
+
+    //set question numbet to 0
+    let questionNumber = 0;
+    askQuestions(questionNumber);
 }
 
-function askQuestions(){
+function askQuestions(questionNumber){
     //get question-title element
     let questionTitle = document.getElementById('question-title');
     let questionChoices = document.getElementById('choices');
 
     //ask questions
-    questionTitle.innerText = questions[0].question; 
+    questionTitle.innerText = questions[questionNumber].question; 
 
     //create ol
     for(var i = 1 ; i < 5 ; i++){
@@ -32,14 +35,20 @@ function askQuestions(){
         //Each variable will have new button element
         currentOption =  document.createElement('button');
         //Add text to each button
-        currentOption.innerText = `${i}. ` + questions[0].choices[i-1];
+        currentOption.innerText = `${i}. ` + questions[questionNumber].choices[i-1];
         //Add to the DOM
         questionChoices.appendChild(currentOption);
+    }
 
-    } 
-    questionChoices.addEventListener('click', function(event) {
-        if (event.target.tagName.toLowerCase() === 'button') {
-            console.log('Button Clicked ' + event.target.innerText);
-        }
-    });
+    userAnswer(questionChoices, questionNumber)
+}
+
+//Check which option the user chooses
+function userAnswer(questionChoices, questionNumber){
+        //Listen for the user answer
+        questionChoices.addEventListener('click', function(event) {
+            if (event.target.tagName.toLowerCase() === 'button') {
+                console.log('Button Clicked ' + event.target.innerText);
+            }
+        });
 }
