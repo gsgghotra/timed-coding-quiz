@@ -17,7 +17,7 @@ let finalScore = document.getElementById('final-score');
 let currentScore = 0;
 let scoresList = [];
 if (localStorage.getItem("score")){
-    scoresList.push(localStorage.getItem("score"));
+    scoresList = JSON.parse(localStorage.getItem("score"));
 }
 
 
