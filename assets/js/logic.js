@@ -16,6 +16,8 @@ let feedback =  document.createElement('p');
 let finalScore = document.getElementById('final-score');
 let currentScore = 0;
 let submit = document.getElementById('submit');
+//Get the input value
+let initials = document.getElementById('initials');
 
 //functions are listed below
 function startQuiz(event){
@@ -30,6 +32,7 @@ function startQuiz(event){
     askQuestions(questionNumber);
 }
 
+//Ask questions, start from question 1
 function askQuestions(questionNumber){
     //Empty the choices prior to question
     questionChoices.innerText = '';
@@ -110,13 +113,23 @@ function showEndScreen(){
     questionsScreen.classList.add('hide');
     //Display end Screen
     endScreen.classList.remove('hide');
-
     //Display Final Score
     finalScore.innerText = currentScore;
 
     //If user decides to save the score  
-    submit.addEventListener("click", ()=>{
-        let scoreObject = {initial: 'GS', userScore: currentScore}
-        localStorage.setItem('score', JSON.stringify(scoreObject));
+    submit.addEventListener("click", (event)=>{
+        
+        console.log(initials.value);
+        if(!initials.value){
+            //Highlight the field
+            initials.style.borderColor = "red";
+            initials.focus();
+            initials.setAttribute("placeholder", "Enter your initials")
+        } else {
+            //Set score
+            let scoreObject = {user: initials.value, userScore: currentScore}
+            localStorage.setItem('score', JSON.stringify(scoreObject));
+        }
+        
     });
 }
