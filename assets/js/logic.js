@@ -1,11 +1,18 @@
 // Event listener that listens to the start quiz button
 let startButton = document.getElementById('start');
 startButton.addEventListener("click", startQuiz);
+//set question numbet to 0
+let questionNumber = 0;
 
 // When start quiz is clicked, hide start screen, show question screen
 let startScreen = document.getElementById('start-screen');
 let questionsScreen = document.getElementById('questions');
 let endScreen = document.getElementById('end-screen');
+
+//Start timer
+let timer = 75;
+let timeInterval; // variable for interval
+let timerPanel = document.getElementById("time");
 
 //get question-title and choices element 
 let questionTitle = document.getElementById('question-title');
@@ -17,6 +24,7 @@ let finalScore = document.getElementById('final-score');
 let currentScore = 0;
 let scoresList = [];
 
+
 if (localStorage.getItem("score")){
     scoresList = JSON.parse(localStorage.getItem("score"));
 }
@@ -24,17 +32,23 @@ if (localStorage.getItem("score")){
 let submit = document.getElementById('submit');
 //Get the input value
 let initials = document.getElementById('initials');
+// Length from HTML attribute of data-max (initials length)
+const maxInitials = initials.getAttribute('data-max');
 
-//set question numbet to 0
-let questionNumber = 0;
+//Audios
+let correctAudio = document.getElementById('correctAudio');
+let incorrectAudio = document.getElementById('incorrectAudio');
+
 
 //functions are listed below
 function startQuiz(event){
-    event.stopPropagation? event.stopPropagation() : event.cancelBubble = true;
     //Hide the start Screen
     startScreen.classList.add('hide');
     //Make questions Screen Visible
     questionsScreen.classList.remove('hide');    
+
+    //start timer and ask Question
+    updateTimer();
     askQuestions(questionNumber);
 }
 
@@ -90,10 +104,14 @@ function checkAnswer(chosenAnswer, questionNumber){
     if (chosenAnswer.slice(3) === questions[questionNumber].correct_answer){
         //Correct Answer
         feedback.innerText = "Correct!";
+        correctAudio.play();
         outcome = true;
     } else {
         feedback.innerText = "Wrong!";
+        incorrectAudio.play();
         outcome = false;
+        //reduce 10 secondss
+        updateTimer(true);
     }
     feedback.classList.add('feedback')
     questionsScreen.append(feedback);
@@ -130,16 +148,21 @@ function showEndScreen(){
     endScreen.classList.remove('hide');
     //Display Final Score
     finalScore.innerText = currentScore;
+    timerPanel.innerText = "0";
 
     //If user decides to save the score  
     submit.addEventListener("click", (event)=>{
-        
-        console.log(initials.value);
+    
         if(!initials.value){
             //Highlight the field
             initials.style.borderColor = "red";
             initials.focus();
             initials.setAttribute("placeholder", "Enter your initials")
+        } else if (initials.value.length > maxInitials) {
+            initials.style.borderColor = "red";
+            initials.focus();
+            initials.value = "";
+            initials.setAttribute("placeholder", "Max 3 characters")
         } else {
             
             //Set score
@@ -155,3 +178,36 @@ function showEndScreen(){
     });
 }
 
+
+function updateTimer(update) {
+    if (timer < 1) {
+        // Stop the quiz on 0 - showEndScreen
+        clearInterval(timeInterval);
+        showEndScreen();
+        return;
+    }
+
+    if (update) {
+        clearInterval(timeInterval);
+        if (timer >= 10) {
+            timer -= 10;
+        } else {
+            showEndScreen();
+            return;
+        }
+    }
+
+    timeInterval = setInterval(runner, 1000);
+    timerPanel.innerHTML = timer;
+
+    function runner() {
+        if (timer < 1) {
+            // Stop the quiz on 0 - showEndScreen
+            clearInterval(timeInterval);
+            showEndScreen();
+        } else {
+            timer--;
+            timerPanel.innerHTML = timer;
+        }
+    }
+}
