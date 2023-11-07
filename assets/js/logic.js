@@ -40,8 +40,7 @@ function startQuiz(event){
 
 //Ask questions, start from question 1
 function askQuestions(questionNumber){
-    console.log("Question number: " + questionNumber)
-         //Empty the choices prior to question
+    //Empty the choices prior to question
     questionChoices.innerText = '';
     questionTitle.innerText = '';
     //ask questions
@@ -74,7 +73,6 @@ function userAnswer(buttonArea, questionNumber) {
 
     // Listen for the user answer
     buttonArea.addEventListener('click', (event) => {
-        console.log("Button clicked for question: " + questionNumber);
         if (event.target.tagName.toLowerCase() === 'button') {
             chosenAnswer = event.target.innerText;
             checkAnswer(chosenAnswer, questionNumber);
@@ -116,7 +114,6 @@ function processScore(questionNumber, outcome) {
         currentScore += 1;
     }
     //Check if more questions are left
-    console.log(questions.length + " " + questions[questionNumber].question)
     if (questionNumber < questions.length - 1){
         questionNumber++
         askQuestions(questionNumber);
