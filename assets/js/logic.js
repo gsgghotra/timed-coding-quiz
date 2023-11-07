@@ -45,7 +45,12 @@ function askQuestions(questionNumber){
     questionChoices.innerText = '';
     questionTitle.innerText = '';
     //ask questions
-    questionTitle.innerText = questions[questionNumber].question; 
+    questionTitle.innerText = questions[questionNumber].question;
+
+    //Created new div for buttons section
+    var buttonArea = document.createElement('div');
+    questionChoices.append(buttonArea);
+
     //display options for the given question
     for(var i = 1 ; i < 5 ; i++){
         //created 4 variables for buttons (option1, option2, option3, option4)
@@ -55,20 +60,20 @@ function askQuestions(questionNumber){
         //Add text to each button
         currentOption.innerText = `${i}. ` + questions[questionNumber].choices[i-1];
         //Add to the DOM
-        questionChoices.appendChild(currentOption);
+        buttonArea.appendChild(currentOption);
     }
 
     //this function checks if chosen answer is correct
-    userAnswer(questionChoices, questionNumber);
+    userAnswer(buttonArea, questionNumber);
 }
 
 //Check which option the user chooses
 // Check which option the user chooses
-function userAnswer(questionChoices, questionNumber) {
+function userAnswer(buttonArea, questionNumber) {
     let chosenAnswer;
 
     // Listen for the user answer
-    questionChoices.addEventListener('click', (event) => {
+    buttonArea.addEventListener('click', (event) => {
         console.log("Button clicked for question: " + questionNumber);
         if (event.target.tagName.toLowerCase() === 'button') {
             chosenAnswer = event.target.innerText;
@@ -111,7 +116,8 @@ function processScore(questionNumber, outcome) {
         currentScore += 1;
     }
     //Check if more questions are left
-    if (questionNumber < 3){
+    console.log(questions.length + " " + questions[questionNumber].question)
+    if (questionNumber < questions.length - 1){
         questionNumber++
         askQuestions(questionNumber);
     } else {
