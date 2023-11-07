@@ -13,6 +13,7 @@ let endScreen = document.getElementById('end-screen');
 let timer = 75;
 let timeInterval; // variable for interval
 let timerPanel = document.getElementById("time");
+timerPanel.innerText = timer;
 
 //get question-title and choices element 
 let questionTitle = document.getElementById('question-title');
