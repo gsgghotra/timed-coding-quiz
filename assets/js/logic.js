@@ -93,7 +93,7 @@ function checkAnswer(chosenAnswer, questionNumber){
     //hide feedback after 1 seconds using set timeout
     setTimeout(()=>{
         feedback.remove();
-    },1000);
+    },1500);
 
     //Save the scores
     processScore(questionNumber, outcome);
