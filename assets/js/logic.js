@@ -16,36 +16,36 @@ let feedback =  document.createElement('p');
 let finalScore = document.getElementById('final-score');
 let currentScore = 0;
 let scoresList = [];
+
 if (localStorage.getItem("score")){
     scoresList = JSON.parse(localStorage.getItem("score"));
 }
-
-
 
 let submit = document.getElementById('submit');
 //Get the input value
 let initials = document.getElementById('initials');
 
+//set question numbet to 0
+let questionNumber = 0;
+
 //functions are listed below
 function startQuiz(event){
-    console.log("Start button clicked");
+    event.stopPropagation? event.stopPropagation() : event.cancelBubble = true;
     //Hide the start Screen
     startScreen.classList.add('hide');
     //Make questions Screen Visible
-    questionsScreen.classList.remove('hide');
-
-    //set question numbet to 0
-    let questionNumber = 0;
+    questionsScreen.classList.remove('hide');    
     askQuestions(questionNumber);
 }
 
 //Ask questions, start from question 1
 function askQuestions(questionNumber){
-    //Empty the choices prior to question
+    console.log("Question number: " + questionNumber)
+         //Empty the choices prior to question
     questionChoices.innerText = '';
+    questionTitle.innerText = '';
     //ask questions
     questionTitle.innerText = questions[questionNumber].question; 
-
     //display options for the given question
     for(var i = 1 ; i < 5 ; i++){
         //created 4 variables for buttons (option1, option2, option3, option4)
@@ -57,28 +57,33 @@ function askQuestions(questionNumber){
         //Add to the DOM
         questionChoices.appendChild(currentOption);
     }
+
     //this function checks if chosen answer is correct
     userAnswer(questionChoices, questionNumber);
 }
 
 //Check which option the user chooses
-function userAnswer(questionChoices, questionNumber){
+// Check which option the user chooses
+function userAnswer(questionChoices, questionNumber) {
     let chosenAnswer;
-    //Listen for the user answer
-    questionChoices.addEventListener('click', function(event) {
+
+    // Listen for the user answer
+    questionChoices.addEventListener('click', (event) => {
+        console.log("Button clicked for question: " + questionNumber);
         if (event.target.tagName.toLowerCase() === 'button') {
-            chosenAnswer = event.target.innerText
+            chosenAnswer = event.target.innerText;
             checkAnswer(chosenAnswer, questionNumber);
         }
-    });
-
+    }, );
 }
+
 
 //Check answer and manage answer feedback
 function checkAnswer(chosenAnswer, questionNumber){
     //variable to save outcome
     let outcome;
-    //First 3 characters have been removed as they include the option number in innerText
+
+        //First 3 characters have been removed as they include the option number in innerText
     if (chosenAnswer.slice(3) === questions[questionNumber].correct_answer){
         //Correct Answer
         feedback.innerText = "Correct!";
@@ -106,14 +111,14 @@ function processScore(questionNumber, outcome) {
         currentScore += 1;
     }
     //Check if more questions are left
-    if (questionNumber >= 2){
-        showEndScreen();
+    if (questionNumber < 3){
+        questionNumber++
+        askQuestions(questionNumber);
     } else {
         //ask next question
-        askQuestions(questionNumber+1);
+        showEndScreen();
     }
 }
-
 //Show end screen after last question or timeout
 function showEndScreen(){
     //Hide the start Screen
@@ -146,3 +151,4 @@ function showEndScreen(){
         
     });
 }
+
