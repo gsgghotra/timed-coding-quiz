@@ -1,5 +1,5 @@
 # Timed Coding Quiz
-This project is a coding assessment that a is combination of multiple-choice questions and interactive coding challenges. The results will be displayed when time is over or all the questions have been answered. The outtcome is achieved by DOM manipulation.
+This project is a coding assessment that a is combination of multiple-choice questions and interactive coding challenges. The results will be displayed when time is over or all the questions have been answered. The outcome is achieved by DOM manipulation.
 
 - **Visit** the deployed webapp at : https://gsgghotra.github.io/timed-coding-quiz/
 
