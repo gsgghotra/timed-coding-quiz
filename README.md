@@ -25,7 +25,7 @@ This project is a coding assessment that a is combination of multiple-choice que
 
 - When the game ends, it should display their score and give the user the ability to save their initials and their score.
 
-
+- **Technologies Used**: HTML, CSS, JavaScript
 
 
 ## Screenshots
